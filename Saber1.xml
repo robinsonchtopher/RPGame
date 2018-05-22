@@ -1,0 +1,12 @@
+<Saber1>
+  <Stats>
+    <Mod name="Str">14</Mod>
+    <Mod name="Dex">10</Mod>
+    <Mod name="Con">12</Mod>
+    <Mod name="Int">8</Mod>
+    <Mod name="Wis">10</Mod>
+    <Mod name="Cha">8</Mod>
+    <Mod name="ExpNeed">100</Mod>
+    <Skill name="Slash">6</Skill>
+  </Stats>
+</Saber1>
