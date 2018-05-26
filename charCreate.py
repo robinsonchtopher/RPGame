@@ -77,7 +77,7 @@ class Combat:
         self.enemies = enemies
         self.fightersInts = {}
         self.newIntOrder = []
-        for i in self.enemies:
+        for i in self.enemies: 
         #for i in enemies:
             self.fightersInts[dX(20)] = i.stats['Name']
         #self.fightersInts[(player.stats['Dex'] + dX(20))] = player

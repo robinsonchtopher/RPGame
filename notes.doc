@@ -1,0 +1,23 @@
+TO DO:
+-when typing, check to see if it matches a target and if not ask for the option again
+  - class choices
+  - move selection
+  - target choices
+
+-replace showing stats that are incoming with one show stats function in the persona class
+
+-in Combat:
+  -create conditions for check checkContinue
+  -make actions deal damage
+  -identify position to check if the fighters are able to continue or should be removed from Combat
+  -replace fighter ints and new int order with a list of tuples and sort start by descending it
+
+
+Clean UP:
+-show stats function doesn't operate player_Turn
+
+-remove helper prints and replace with notes
+
+-many dice rolls are currently being used as a place holder to see what the functions actually do but should now be removed
+
+-text is very choppy and .format can be used to clean it up
