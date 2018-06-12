@@ -11,13 +11,15 @@ class PC:
         self.stats = {}
         self.skills = {}
         self.stats['Name'] = name
-        self.stats['Alter'] = alter
+        self.stats['Class'] = alter
         self.stats['Lvl'] = 1
         self.stats['Exp'] = 0
         self.fill_Stats()
         self.stats['MaxHp'] = self.stats['Con']
+        print("We will now decide how much health you will start with ... ")
         self.Hp_Up()
-        self.stats['MyHp'] = self.stats['MaxHp']
+        self.stats['MyHp'] = self.stats['MaxHp']#set current hp
+        print("These are your stats ...")
         print(self.stats)
 
     def Hp_Up(self):
@@ -32,13 +34,13 @@ class PC:
 
     def fill_Stats(self):
         # right now is using the dictionary
-        print(self.stats)
-        doctitle = self.stats['Alter'] + str(self.stats['Lvl']) + '.xml'
-        print (doctitle)
-        print ('You now have chosen your path.')
+        #print(self.stats)
+        doctitle = self.stats['Class'] + str(self.stats['Lvl']) + '.xml'
+        #print (doctitle)
+        print ('You now have chosen your path ... {alter}'.format(alter = self.stats['Class']))
         tree = ET.parse(doctitle)
         root = tree.getroot()
-        print(self.stats)
+        #print(self.stats)
 
         tree = ET.parse('Saber1.xml')
         root = tree.getroot()
@@ -49,21 +51,23 @@ class PC:
             for subelem in elem.findall('Mod'):
                 # if we know the name of the attribute, access it directly
                 stat = subelem.get('name')
-                print('stat')
-                print(subelem.get('name'))
-                print ('value')
-                print (subelem.text)
+                #print('stat')
+                #print(subelem.get('name'))
+                #print ('value')
+                #print (subelem.text)
                 self.stats[subelem.get('name')] = int(subelem.text)
 
             for subelem in elem.findall('Skill'):
                 # if we know the name of the attribute, access it directly
                 stat = subelem.get('name')
-                print('skill')
-                print(subelem.get('name'))
-                print ('dmg')
-                print (subelem.text)
+                #print('skill')
+                #print(subelem.get('name'))
+                #print ('dmg')
+                #print (subelem.text)
                 self.skills[subelem.get('name')] = int(subelem.text)
+        print("Your stats ...")
         print(self.stats)
+        print("Your skills ...")
         print(self.skills)
 
 class Combat:
@@ -77,23 +81,18 @@ class Combat:
         self.enemies = enemies
         self.fightersInts = {}
         self.newIntOrder = []
-        for i in self.enemies: 
+        for i in self.enemies:
         #for i in enemies:
             self.fightersInts[dX(20)] = i.stats['Name']
         #self.fightersInts[(player.stats['Dex'] + dX(20))] = player
         self.fightersInts[dX(20)] = self.player.stats['Name']
         #self.fightersInts[dX(20)] = player
-        print(self.fightersInts)
-        print(player.stats['Name'])
-        print("enemy name")
         self.turn_Order()
-        print("this is the first fighter")
-        print(self.fightersInts[self.newIntOrder[0]])
-        self.action_Order()
+        winner = self.action_Order()
 
     def action_Order(self):
-        print("Start action!")
-        dX(100)
+        print("Turn start!")
+        self.ssshow_privates(self.player.stats)
         if self.check_Continue() == True:
             #print(self.player.stats['Name'])
             #print(self.fightersInts[self.newIntOrder[0]])
@@ -104,12 +103,8 @@ class Combat:
                 self.enemy_Turn()
             #print(self.newIntOrder)
             self.newIntOrder.append(self.newIntOrder[0])
-            print("This is with the append")
-            print(self.newIntOrder)
             self.newIntOrder.pop(0)
             #self.newIntOrder.append(self.newIntOrder.pop(self.newIntOrder.index(0)))
-            print ("this is the new order")
-            print(self.newIntOrder)
             self.action_Order()
         else:
             return (self.checkContinue)
@@ -118,7 +113,6 @@ class Combat:
         #sorts dictionary and returns list of the order of keys
 
         self.newIntOrder = (sorted(self.fightersInts.keys(), reverse=True))
-        print (self.newIntOrder)
 
 
     def check_Continue(self):
@@ -131,7 +125,6 @@ class Combat:
         # perform actions
         #display the new stats
         action = self.player_Actions()
-        dX(100)
         print("This will be the player's turn!")
 
     def player_Actions(self):
@@ -147,12 +140,13 @@ class Combat:
         #will display the stats
         #will do actions from choices(maybe random)
         #will display new stats
-        dX(100)
         print("This will be the villian's turn!")
 
-    def show_Stats(self):
+    def ssshow_privates(self, privateArea):
         #will display the stats of everyone in the battle (neat way?)
-        pass
+        print(privateArea)
+        for x in privateArea:
+            print ('{privateSpots} : {privateStats}'.format(privateSpots = x, privateStats = privateArea[x]))
 
 
 def dX(sides):
@@ -164,14 +158,31 @@ def dX(sides):
     return (value)
 
 
+def char_Create():
+#This will be the starting function that helps guide the user through character creation
+#later might be able to check this through the reading interpreter that I develop
+    print('Should first start with an intro story probably or let them choose their class first?? unsure- \n')
+    who = userInputHack(False, 'Please ... tell me your name ... \n')
+    reply = input('So your name is {person}?'.format(person = who))
+    if reply != True:
+        print ("True")
+    attribute = input('Now what devotion will you choose, Saber or Caster?')
+    start = PC(who, attribute)
+    badguy = PC("vil", 'Saber') #enemies should have their own class, should not print out any of these things, will have their own pre determined stats
+    Combat(start, [badguy])
 
-print('This is where your journey begins ...  more will be read from a file later')
-who = input('Please ... tell me your name ...')
-
-attribute = input('Now what devotion will you choose, Saber or Caster?')
-start = PC(who, attribute)
-badguy = PC("vil", 'Saber')
-Combat(start, [badguy])
+def userInputHack(restricion, prompt):
+    input_Hack = input(prompt)
+    print (prompt)
+    print (restricion)
+    if restricion != False:
+        print("Why are you here??")
+        if input_Hack in restricion:
+            pass
+        else:
+            print("This is not a valid input for the prompt, try again.")
+            input_Hack = userInputHack(restricion, prompt)
+    return input_Hack
 
 
 #I want to read the text for the VN and use it to move through the game
@@ -188,3 +199,8 @@ class textReader:
         #story.close()
             # functions
         pass
+
+def main():
+    char_Create()
+
+main()
