@@ -20,7 +20,7 @@ class PC:
         self.Hp_Up()
         self.stats['MyHp'] = self.stats['MaxHp']#set current hp
         print("These are your stats ...")
-        print(self.stats)
+        self.ssshow_privates(self.stats)
 
     def Hp_Up(self):
         #if self.stats['Lvl'] > 1:
@@ -70,6 +70,11 @@ class PC:
         print("Your skills ...")
         print(self.skills)
 
+    def ssshow_privates(privateArea):
+        #will display the stats of everyone in the battle (neat way?)
+        for x in privateArea:
+            print ('{privateSpots} : {privateStats}'.format(privateSpots = x, privateStats = privateArea[x]))
+
 class Combat:
 
     def __init__(self, player, enemies):
@@ -92,7 +97,7 @@ class Combat:
 
     def action_Order(self):
         print("Turn start!")
-        self.ssshow_privates(self.player.stats)
+        self.player.ssshow_privates(self.player.stats)
         if self.check_Continue() == True:
             #print(self.player.stats['Name'])
             #print(self.fightersInts[self.newIntOrder[0]])
@@ -128,10 +133,10 @@ class Combat:
         print("This will be the player's turn!")
 
     def player_Actions(self):
-        for i in self.player.skills:
-            print (i)
-        impact = input("Please choose one of your skills")
-        target = int(input("Now who is your target, please identify the index"))
+        self.player.ssshow_privates(self.player.skills)
+        impact = userInputHack("Please choose one of your skills", self.player.skills)
+        print (impact)
+        #target = int(input("Now who is your target, please identify the index"))
         bigdikdmg = dX(self.player.skills[impact])
         print (bigdikdmg)
         print ('You attack with {skill} and deal {amount} damage to {enemy}!'.format(skill = impact, amount = bigdikdmg, enemy = self.enemies[target].stats['Name']))
@@ -142,11 +147,6 @@ class Combat:
         #will display new stats
         print("This will be the villian's turn!")
 
-    def ssshow_privates(self, privateArea):
-        #will display the stats of everyone in the battle (neat way?)
-        print(privateArea)
-        for x in privateArea:
-            print ('{privateSpots} : {privateStats}'.format(privateSpots = x, privateStats = privateArea[x]))
 
 
 def dX(sides):
@@ -162,26 +162,23 @@ def char_Create():
 #This will be the starting function that helps guide the user through character creation
 #later might be able to check this through the reading interpreter that I develop
     print('Should first start with an intro story probably or let them choose their class first?? unsure- \n')
-    who = userInputHack(False, 'Please ... tell me your name ... \n')
-    reply = input('So your name is {person}?'.format(person = who))
-    if reply != True:
-        print ("True")
+    who = userInputHack('Please ... tell me your name ... \n', False)
     attribute = input('Now what devotion will you choose, Saber or Caster?')
     start = PC(who, attribute)
     badguy = PC("vil", 'Saber') #enemies should have their own class, should not print out any of these things, will have their own pre determined stats
     Combat(start, [badguy])
 
-def userInputHack(restricion, prompt):
+def userInputHack(prompt, restricion):
+    #print(prompt)
+    #print(restricion)
     input_Hack = input(prompt)
-    print (prompt)
-    print (restricion)
     if restricion != False:
         print("Why are you here??")
         if input_Hack in restricion:
             pass
         else:
             print("This is not a valid input for the prompt, try again.")
-            input_Hack = userInputHack(restricion, prompt)
+            input_Hack = userInputHack(prompt, restricion)
     return input_Hack
 
 

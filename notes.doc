@@ -21,3 +21,10 @@ Clean UP:
 -many dice rolls are currently being used as a place holder to see what the functions actually do but should now be removed
 
 -text is very choppy and .format can be used to clean it up
+
+_____________________________________________________________________________________________
+6/19
+make show private public class?
+make userInputHack the only things used for inputs
+a few more extra prints can be removed
+make sure prompts move to next line for clean
